@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Smart Learning Hub offers online tuition and affordable educational materials for learners and teachers.">
+  <title>Smart Learning Hub | Making Learning Easier</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Smart Learning Hub home">
+      <span class="brand-icon">📚</span>
+      <span><strong>Smart Learning Hub</strong><small>Making Learning Easier!</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+    <nav id="mainNav">
+      <a href="#services">Services</a>
+      <a href="#materials">Materials & Prices</a>
+      <a href="#classes">Online Classes</a>
+      <a href="#register">Register</a>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <p class="eyebrow">LEARN • GROW • SUCCEED</p>
+        <h1>Quality learning support, <span>made simple.</span></h1>
+        <p>Online and physical tuition, revision resources, and ready-to-use educational materials for learners and teachers.</p>
+        <div class="hero-actions">
+          <a class="button button-gold" href="#register">Register for tuition</a>
+          <a class="button button-outline" href="#materials">Explore materials</a>
+        </div>
+        <p class="hero-note">Affordable • Quality • Reliable • Ready-to-Use</p>
+      </div>
+      <div class="hero-card">
+        <div class="book-emoji">🎓</div>
+        <h2>Your learning partner</h2>
+        <p>Get support with lessons, revision, exams and teaching resources.</p>
+        <div class="mini-stat"><strong>All levels</strong><span>Educational resources</span></div>
+        <div class="mini-stat"><strong>Flexible</strong><span>Online learning support</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="section-heading">
+        <p class="eyebrow">WHAT WE OFFER</p>
+        <h2>Services for learners and teachers</h2>
+        <p>Practical educational support to help you teach and learn with confidence.</p>
+      </div>
+      <div class="service-grid">
+        <article class="service-card"><span>👩‍🏫</span><h3>Tuition</h3><p>Online and physical lessons with personalised learning support.</p></article>
+        <article class="service-card"><span>📘</span><h3>Learning materials</h3><p>Class notes, schemes of work, lesson plans, exams and marking schemes.</p></article>
+        <article class="service-card"><span>💻</span><h3>Digital learning</h3><p>Support for online lessons and access to learning resources.</p></article>
+        <article class="service-card"><span>📝</span><h3>Revision support</h3><p>Revision papers, assessment tests and study guidance.</p></article>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="materials">
+      <div class="section-heading">
+        <p class="eyebrow">SHOP EDUCATIONAL MATERIALS</p>
+        <h2>Quality materials at affordable prices</h2>
+        <p>Select an item to prepare an order. Prices are in Kenyan shillings.</p>
+      </div>
+      <div class="product-grid" id="productGrid">
+        <article class="product-card">
+          <div class="product-icon">📚</div><h3>Schemes of Work</h3><p>Ready-to-use teaching plans.</p>
+          <div class="product-bottom"><strong>KSh 30</strong><button class="button button-small add-order" data-product="Schemes of Work" data-price="30">Order</button></div>
+        </article>
+        <article class="product-card">
+          <div class="product-icon">🗂️</div><h3>Lesson Plans</h3><p>Organised lesson preparation.</p>
+          <div class="product-bottom"><strong>KSh 40</strong><button class="button button-small add-order" data-product="Lesson Plans" data-price="40">Order</button></div>
+        </article>
+        <article class="product-card">
+          <div class="product-icon">📝</div><h3>Exams & Marking Schemes</h3><p>Assessment and marking resources.</p>
+          <div class="product-bottom"><strong>KSh 60</strong><button class="button button-small add-order" data-product="Exams & Marking Schemes" data-price="60">Order</button></div>
+        </article>
+        <article class="product-card">
+          <div class="product-icon">📖</div><h3>Class Notes</h3><p>Notes to support classroom learning.</p>
+          <div class="product-bottom"><strong>KSh 40</strong><button class="button button-small add-order" data-product="Class Notes" data-price="40">Order</button></div>
+        </article>
+      </div>
+      <div class="order-panel">
+        <div><h3>Your order</h3><p id="orderSummary">No items selected yet.</p><strong id="orderTotal">Total: KSh 0</strong></div>
+        <button class="button button-gold" id="checkoutButton">Send order via WhatsApp</button>
+      </div>
+      <p class="small-note">Prices are starter examples and can be edited in <code>index.html</code>. Confirm availability and final cost before payment.</p>
+    </section>
+
+    <section class="section" id="classes">
+      <div class="section-heading">
+        <p class="eyebrow">LEARN FROM ANYWHERE</p>
+        <h2>Online classes</h2>
+        <p>Register your interest and we will contact you to confirm the subject, schedule and lesson link.</p>
+      </div>
+      <div class="class-layout">
+        <div class="class-feature"><span class="class-feature-icon">🧑‍💻</span><h3>Flexible online lessons</h3><p>Lessons can be delivered through a video meeting platform selected by the tutor. A private class link is shared with registered learners.</p><ul><li>Subject-focused lessons</li><li>Revision and question practice</li><li>Class schedule confirmed directly</li></ul></div>
+        <div class="class-feature class-feature-dark"><span class="class-feature-icon">📅</span><h3>How to join</h3><ol><li>Complete the student registration form.</li><li>We contact you to agree on a schedule.</li><li>Receive the confirmed class link.</li></ol><a class="button button-gold" href="#register">Register now</a></div>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="register">
+      <div class="section-heading">
+        <p class="eyebrow">GET STARTED</p>
+        <h2>Student registration</h2>
+        <p>Fill in the form to prepare a registration request. It will open WhatsApp so you can send it to us.</p>
+      </div>
+      <form class="registration-form" id="registrationForm">
+        <div class="form-row">
+          <label>Student's full name<input name="studentName" required placeholder="Enter full name"></label>
+          <label>Parent/guardian name (if applicable)<input name="guardianName" placeholder="Enter parent or guardian name"></label>
+        </div>
+        <div class="form-row">
+          <label>Phone number<input name="phone" required type="tel" placeholder="e.g. 07XX XXX XXX"></label>
+          <label>Email (optional)<input name="email" type="email" placeholder="you@example.com"></label>
+        </div>
+        <div class="form-row">
+          <label>Class / level<select name="level" required><option value="">Select level</option><option>Primary</option><option>Junior School</option><option>Senior School</option><option>Secondary / KCSE</option><option>IGCSE / Cambridge</option><option>Other</option></select></label>
+          <label>Preferred learning mode<select name="mode" required><option value="">Select mode</option><option>Online</option><option>Physical</option><option>Either</option></select></label>
+        </div>
+        <label>Subjects or support needed<textarea name="subjects" rows="3" required placeholder="e.g. Geography and History revision"></textarea></label>
+        <button class="button button-primary" type="submit">Prepare registration on WhatsApp</button>
+        <p class="small-note">Privacy note: this starter site does not save form entries to a database. Only send information you are comfortable sharing through WhatsApp.</p>
+      </form>
+    </section>
+
+    <section class="section payment-section" id="payments">
+      <div class="payment-copy"><p class="eyebrow">SIMPLE PAYMENT PROCESS</p><h2>Payment and order confirmation</h2><p>For this first version, place an order through WhatsApp and confirm the amount and payment instructions directly with Smart Learning Hub before paying.</p><p><strong>Important:</strong> this website does not process or verify payments yet. Do not enter or share your M-Pesa PIN, card PIN or password on this website.</p></div>
+      <div class="payment-card"><span>💳</span><h3>Secure payment integration — next step</h3><p>We can later connect a supported payment provider, such as an approved M-Pesa checkout service, using a secure server. Never put payment secret keys in browser JavaScript.</p><a class="button button-primary" href="#contact">Ask about payment</a></div>
+    </section>
+
+    <section class="contact-band" id="contact">
+      <div><p class="eyebrow">LET'S TALK</p><h2>Need learning support?</h2><p>Contact Smart Learning Hub for tuition, materials and order enquiries.</p></div>
+      <a class="button button-gold" id="contactWhatsApp" href="#" target="_blank" rel="noopener">Chat on WhatsApp</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="#home"><span class="brand-icon">📚</span><span><strong>Smart Learning Hub</strong><small>Making Learning Easier!</small></span></a>
+    <p>Witeithie, Thika, Kenya</p>
+    <p>WhatsApp: 0798662123 · smartlearninghub254@gmail.com</p>
+    <p class="copyright">© <span id="year"></span> Smart Learning Hub. All rights reserved.</p>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
