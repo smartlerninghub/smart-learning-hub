@@ -105,7 +105,7 @@
       <div class="section-heading">
         <p class="eyebrow">GET STARTED</p>
         <h2>Student registration</h2>
-        <p>Fill in the form to prepare a registration request. It will open WhatsApp so you can send it to us.</p>
+        <p>Complete the form to save your registration securely to our student registration database.</p>
       </div>
       <form class="registration-form" id="registrationForm">
         <div class="form-row">
@@ -121,8 +121,10 @@
           <label>Preferred learning mode<select name="mode" required><option value="">Select mode</option><option>Online</option><option>Physical</option><option>Either</option></select></label>
         </div>
         <label>Subjects or support needed<textarea name="subjects" rows="3" required placeholder="e.g. Geography and History revision"></textarea></label>
-        <button class="button button-primary" type="submit">Prepare registration on WhatsApp</button>
-        <p class="small-note">Privacy note: this starter site does not save form entries to a database. Only send information you are comfortable sharing through WhatsApp.</p>
+        <label class="consent-label"><input type="checkbox" name="consent" required> I agree that Smart Learning Hub may store these details to respond to this registration.</label>
+        <button class="button button-primary" id="registrationSubmit" type="submit">Submit registration</button>
+        <p class="small-note">Privacy: registration details are stored in the Smart Learning Hub database. Do not enter passwords, PINs or other secret information. If registering a child, a parent/guardian should complete this form.</p>
+        <p class="form-status" id="registrationStatus" role="status" aria-live="polite"></p>
       </form>
     </section>
 
@@ -144,6 +146,8 @@
     <p class="copyright">© <span id="year"></span> Smart Learning Hub. All rights reserved.</p>
   </footer>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
