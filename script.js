@@ -56,6 +56,18 @@ document.getElementById("checkoutButton").addEventListener("click", () => {
 const registrationForm = document.getElementById("registrationForm");
 const registrationSubmit = document.getElementById("registrationSubmit");
 const registrationStatus = document.getElementById("registrationStatus");
+const consentCheckbox = registrationForm.querySelector('input[name="consent"]');
+
+// Make the Submit button disabled until the consent box is checked
+function updateSubmitButton() {
+  registrationSubmit.disabled = !consentCheckbox.checked;
+}
+
+// Run once when the page loads
+updateSubmitButton();
+
+// Update every time the user ticks or unticks the box
+consentCheckbox.addEventListener("change", updateSubmitButton);
 
 function databaseClient() {
   const url = window.SMART_LEARNING_HUB_SUPABASE_URL;
@@ -71,6 +83,14 @@ function databaseClient() {
 
 registrationForm.addEventListener("submit", async event => {
   event.preventDefault();
+
+  // Extra safety – do not allow submission without consent
+  if (!consentCheckbox.checked) {
+    registrationStatus.textContent = "Please tick the consent box to continue.";
+    showToast("You must agree to the consent statement.");
+    return;
+  }
+
   registrationStatus.textContent = "";
   const client = databaseClient();
   if (!client) {
@@ -93,18 +113,20 @@ registrationForm.addEventListener("submit", async event => {
 
   registrationSubmit.disabled = true;
   registrationSubmit.textContent = "Saving registration…";
+
   try {
     const { error } = await client.from("student_registrations").insert([record]);
     if (error) throw error;
     registrationStatus.textContent = "Thank you! Your registration has been saved. Smart Learning Hub will contact you using the details provided.";
     showToast("Registration saved successfully.");
     registrationForm.reset();
+    updateSubmitButton(); // disable the button again after successful reset
   } catch (error) {
     console.error("Registration save failed:", error);
     registrationStatus.textContent = "We could not save your registration. Please check your internet connection and try again, or contact us on WhatsApp.";
     showToast("Registration was not saved. Please try again.");
   } finally {
-    registrationSubmit.disabled = false;
+    registrationSubmit.disabled = !consentCheckbox.checked;
     registrationSubmit.textContent = "Submit registration";
   }
 });
