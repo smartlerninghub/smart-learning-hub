@@ -1,0 +1,17 @@
+// Supabase publishable key is intended for frontend use. RLS protects the data.
+const SUPABASE_URL = "https://jsierzgejbkskcpowbfx.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_bWeo59BQvYJspHxI0bk9WA_8iKkr_zF";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const $ = id => document.getElementById(id);
+let registrations = [];
+function notice(message,type="success"){const n=$("notice");n.textContent=message;n.className="show "+type}
+function clearNotice(){const n=$("notice");n.textContent="";n.className=""}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function date(v){if(!v)return "—";const d=new Date(v);return isNaN(d)?"—":d.toLocaleString("en-KE",{dateStyle:"medium",timeStyle:"short"})}
+function render(){const q=$("searchInput").value.trim().toLowerCase();const rows=registrations.filter(r=>[r.student_name,r.guardian_name,r.phone,r.email,r.level,r.learning_mode,r.subjects].some(v=>String(v??"").toLowerCase().includes(q)));$("totalCount").textContent=registrations.length;$("latestDate").textContent=registrations.length?date(registrations[0].created_at):"—";$("registrationsBody").innerHTML=rows.length?rows.map(r=>`<tr><td>${esc(date(r.created_at))}</td><td><b>${esc(r.student_name)}</b></td><td>${esc(r.guardian_name||"—")}</td><td>${esc(r.phone)}</td><td>${esc(r.email||"—")}</td><td>${esc(r.level)}</td><td>${esc(r.learning_mode)}</td><td>${esc(r.subjects)}</td></tr>`).join(""):`<tr><td colspan="8">${registrations.length?"No matching records.":"No registrations have been submitted yet."}</td></tr>`}
+async function load(){clearNotice();$("refreshButton").disabled=true;$("registrationsBody").innerHTML='<tr><td colspan="8">Loading registrations…</td></tr>';const {data,error}=await db.from("student_registrations").select("id,student_name,guardian_name,phone,email,level,learning_mode,subjects,created_at").order("created_at",{ascending:false});$("refreshButton").disabled=false;if(error){$("registrationsBody").innerHTML='<tr><td colspan="8">Could not load records.</td></tr>';notice(error.message+" Check admin_users membership and Supabase RLS policies.","error");return}registrations=data||[];render()}
+async function sessionView(session){$("loginPanel").hidden=!!session;$("dashboardPanel").hidden=!session;if(session){$("signedInAs").textContent="Signed in as "+(session.user.email||"admin");await load()}}
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();clearNotice();$("loginButton").disabled=true;$("loginButton").textContent="Signing in…";const {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});$("loginButton").disabled=false;$("loginButton").textContent="Sign in";if(error){notice("Sign-in failed: "+error.message,"error");return}notice("Signed in. Loading registrations…");await sessionView(data.session)});
+$("logoutButton").addEventListener("click",async()=>{const {error}=await db.auth.signOut();if(error){notice(error.message,"error");return}registrations=[];$("loginForm").reset();clearNotice();await sessionView(null)});
+$("refreshButton").addEventListener("click",load);$("searchInput").addEventListener("input",render);$("year").textContent=new Date().getFullYear();
+(async()=>{const {data,error}=await db.auth.getSession();if(error)notice(error.message,"error");await sessionView(data?.session||null)})();
