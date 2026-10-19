@@ -184,12 +184,20 @@ if (registrationForm && registrationSubmit && registrationStatus) {
     registrationSubmit.textContent = "Saving registration…";
     registrationStatus.textContent = "";
 
-    try {
-      const { error } = await client
-        .from("student_registrations")
-        .insert([record]);
+    const { data, error } = await client
+  .from("student_registrations")
+  .insert([record])
+  .select("id");
 
-      if (error) throw error;
+if (error) throw error;
+
+if (!data || data.length === 0) {
+  throw new Error(
+    "The insert returned no row. Check the database response and policies."
+  );
+}
+
+console.log("Registration insert confirmed:", data);
 
       registrationStatus.textContent =
         "Thank you! Your registration has been saved. Smart Learning Hub will contact you using the details provided.";
