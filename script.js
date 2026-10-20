@@ -95,6 +95,8 @@ if (checkoutButton) {
 updateOrder();
 
 // ---------- Supabase registration ----------
+
+ // ---------- WhatsApp registration ----------
 const registrationForm = document.getElementById("registrationForm");
 const registrationSubmit = document.getElementById("registrationSubmit");
 const registrationStatus = document.getElementById("registrationStatus");
@@ -105,7 +107,8 @@ if (registrationForm && registrationSubmit && registrationStatus) {
   );
 
   function updateSubmitButton() {
-    registrationSubmit.disabled = !consentCheckbox || !consentCheckbox.checked;
+    registrationSubmit.disabled =
+      !consentCheckbox || !consentCheckbox.checked;
   }
 
   updateSubmitButton();
@@ -114,107 +117,62 @@ if (registrationForm && registrationSubmit && registrationStatus) {
     consentCheckbox.addEventListener("change", updateSubmitButton);
   }
 
-  function databaseClient() {
-    const url = window.SMART_LEARNING_HUB_SUPABASE_URL;
-    const key = window.SMART_LEARNING_HUB_SUPABASE_KEY;
-
-    if (
-      !window.supabase ||
-      !url ||
-      !key ||
-      url.includes("PASTE_YOUR_") ||
-      key.includes("PASTE_YOUR_")
-    ) {
-      return null;
-    }
-
-    if (!window.smartLearningHubSupabaseClient) {
-      window.smartLearningHubSupabaseClient =
-        window.supabase.createClient(url, key);
-    }
-
-    return window.smartLearningHubSupabaseClient;
-  }
-
-  registrationForm.addEventListener("submit", async event => {
+  registrationForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
     if (!consentCheckbox || !consentCheckbox.checked) {
       registrationStatus.textContent =
-        "Please agree to the data-storage statement before submitting.";
-      showToast("Please tick the consent box.");
+        "Please tick the consent box before registering.";
       return;
     }
 
-    const client = databaseClient();
-
-    if (!client) {
-      registrationStatus.textContent =
-        "Registration saving is not configured yet. Please contact Smart Learning Hub on WhatsApp.";
-      showToast("Database connection is not configured.");
-      return;
-    }
+    if (!registrationForm.reportValidity()) return;
 
     const data = new FormData(registrationForm);
 
-    const record = {
-      student_name: String(data.get("studentName") || "").trim(),
-      guardian_name: String(data.get("guardianName") || "").trim() || null,
-      phone: String(data.get("phone") || "").trim(),
-      email: String(data.get("email") || "").trim() || null,
-      level: String(data.get("level") || "").trim(),
-      learning_mode: String(data.get("mode") || "").trim(),
-      subjects: String(data.get("subjects") || "").trim(),
-      consent_to_store: true
-    };
+    const studentName = String(data.get("studentName") || "").trim();
+    const guardianName = String(data.get("guardianName") || "").trim();
+    const phone = String(data.get("phone") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const level = String(data.get("level") || "").trim();
+    const mode = String(data.get("mode") || "").trim();
+    const subjects = String(data.get("subjects") || "").trim();
 
-    if (
-      !record.student_name ||
-      !record.phone ||
-      !record.level ||
-      !record.learning_mode ||
-      !record.subjects
-    ) {
+    const message = [
+      "Hello Smart Learning Hub!",
+      "I would like to register for learning services.",
+      "",
+      `Student name: ${studentName}`,
+      `Parent/Guardian: ${guardianName || "Not provided"}`,
+      `Phone: ${phone}`,
+      `Email: ${email || "Not provided"}`,
+      `Class/Level: ${level}`,
+      `Learning mode: ${mode}`,
+      `Subjects: ${subjects}`,
+      "",
+      "I agree to share these details with Smart Learning Hub through WhatsApp."
+    ].join("\n");
+
+    const whatsappURL =
+      "https://wa.me/254798662123?text=" +
+      encodeURIComponent(message);
+
+    const whatsappWindow = window.open(
+      whatsappURL,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+    registrationStatus.textContent =
+      "WhatsApp is opening. Please press Send in WhatsApp to complete your registration.";
+
+    if (!whatsappWindow) {
       registrationStatus.textContent =
-        "Please complete all required fields before submitting.";
-      return;
-    }
-
-    registrationSubmit.disabled = true;
-    registrationSubmit.textContent = "Saving registration…";
-    registrationStatus.textContent = "";
-
-    const { data, error } = await client
-  .from("student_registrations")
-  .insert([record])
-  .select("id");
-
-if (error) throw error;
-
-if (!data || data.length === 0) {
-  throw new Error(
-    "The insert returned no row. Check the database response and policies."
-  );
-}
-
-console.log("Registration insert confirmed:", data);
-
-      registrationStatus.textContent =
-        "Thank you! Your registration has been saved. Smart Learning Hub will contact you using the details provided.";
-      showToast("Registration saved successfully.");
-
-      registrationForm.reset();
-    } catch (error) {
-      console.error("Registration save failed:", error);
-      registrationStatus.textContent =
-        "We could not save your registration. Please try again or contact us on WhatsApp.";
-      showToast("Registration was not saved. Please try again.");
-    } finally {
-      registrationSubmit.textContent = "Submit registration";
-      updateSubmitButton();
+        "Your browser may have blocked WhatsApp. Allow pop-ups or open WhatsApp using the contact link on this page.";
     }
   });
 }
+
 
 // ---------- Contact and navigation ----------
 const contactWhatsApp = document.getElementById("contactWhatsApp");
